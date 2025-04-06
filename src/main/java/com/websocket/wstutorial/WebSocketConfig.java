@@ -43,6 +43,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
     	RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        rabbitTemplate.setUserCorrelationId(true);
+        rabbitTemplate.setReceiveTimeout(40000);
         return rabbitTemplate;
     }
 

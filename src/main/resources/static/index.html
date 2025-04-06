@@ -57,18 +57,12 @@
 			stompClient = Stomp.over(socket);
 			stompClient.connect({}, function (frame) {
 				console.log('Connected: ' + frame);
-				console.log('new aa logg');
+				console.log('new ccc logg');
 				stompClient.subscribe('/user/topic/sita-device', function (message) {
-					
-					const correlationId = message.headers.correlationId; // Extract correlationId from headers
+					const correlationId = message.headers.correlationId;
+					console.log("Received correlationId on /user/topic/sita-device:", correlationId);
 					receivedCorrelationId = correlationId;
-					console.log('ccoore: ' + correlationId);
-					if (correlationId) {
-						showMessage(JSON.parse(message.body).messageContent);
-					} else {
-						console.log('CorrelationId not found');
-						showMessage(JSON.parse(message.body).messageContent);	
-					}
+					showMessage(JSON.parse(message.payload).messageContent);
 				});
 			});
 		}
@@ -79,7 +73,7 @@
 		
 		
 		function sendMessage() {
-            console.log("sending private message: " + receivedCorrelationId);
+            console.log("sending private message:sda");
 			stompClient.send("/ws/device-message", { correlationId: receivedCorrelationId }, JSON.stringify({'messageContent': $("#private-message").val(), 'deviceId': $("#deviceId").val()}));
         }
 		
